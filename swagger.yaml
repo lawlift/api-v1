@@ -15,14 +15,14 @@ servers:
   # - description: SwaggerHub API Auto Mocking
   #   url: https://virtserver.swaggerhub.com/sarasate/APIv1/1.0.0
   - url: 'https://app.lawlift.de/api/v1'
-  - url: 'http://localhost:3000/api/v1'
+  # - url: 'http://localhost:3000/api/v1'
 tags:
   - name: documents
     description: Generate a document in the Lawlift app with imported data
   - name: templates
-    description: Get list of active templates
+    description: Endpoints for templates 
   - name: publications
-    description: Get list of active publications 
+    description: Endpoints for publications
 paths:
   /publications/documents/generate:
     post:
@@ -31,7 +31,13 @@ paths:
       description: Generate a document for a publication
       responses:
         '200':
-          description: OK
+          description:
+            Returns a link to a generated document based on a publication 
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'https://app.lawlift.de/publications/document/YSHqK23Y7RGAtFHB6/yfoDmbuHp5TiQgEfb'
       requestBody:
         $ref: '#/components/requestBodies/PublicationDocument'
   /publications/{publicationId}:
@@ -43,13 +49,17 @@ paths:
       parameters:
         - name: publicationId
           in: path
-          description: ID of publication that needs to be fetched
+          description: ID of the publication that needs to be fetched
           required: true
           schema:
             type: string
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Publication'
       security:
         - Bearer: []
   /publications:
@@ -61,12 +71,37 @@ paths:
         '200':
           description: OK
   /documents/generate:
+    # description: "test"
+    # summary: "Test"
+    
+      # This endpoint generates a new document with the provided data pre-filled and returns a url to the new document in Lawlift app.
+
+      # ###Prerequisites
+      # To populate imported data into an newly created document based on an existing templates a manual mapping of fields has to be provided for the template.
+
+      # Enable the API Mapping in Lawlift and provide mapping fields for all the answers of a template.
+
+      # Login to Lawlift
+      # Go to 'Templates'
+      # 'Edit' the template you want to map
+      # Open 'Options'
+      # At the bottom enable 'Api Mapping' and copy the API auth key.
+      # At the left hand sidebar enter field names for all the answers you want to map to your export.
+      # The mapping connects fields from the source system 1 to 1 with an answer of a document.
     post:
       tags:
         - documents
       summary: Generate document link
       operationId: generateDocument
       responses:
+        '200':
+          description:
+            Returns a link to a generated document 
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'https://app.lawlift.de/Contract/YSHqK23Y7RGAtFHB6/yfoDmbuHp5TiQgEfb'
         '405':
           description: Invalid input
       security:
@@ -163,26 +198,34 @@ components:
       type: object
       properties:
         id:
+          type: string  
+        shortId:
+          type: string
+        templateId:
+          type: string
+        name:
+          type: string
+        status:
+          type: object
+          properties:
+            publishedAt:
+              type: string 
+            published:
+              type: boolean
+        version:
           type: integer
-          format: int64
-        username:
+        createdAt:
           type: string
-        firstName:
+        updatedAt:
           type: string
-        lastName:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-        phone:
-          type: string
-        userStatus:
-          type: integer
-          format: int32
-          description: User Status
-      xml:
-        name: User
+        tags:
+          type: array
+          items:
+            type: string
+        fields:
+          type: array
+          items:
+            type: string
   requestBodies:
     Data:
       content:
@@ -252,10 +295,6 @@ system and extract it from exported docx files."
               nonce:
                 type: string
                 description: Only required if data payload is encrypted.
-                
-                
-
-      description: Generate a document based on a template 
       required: true
   securitySchemes:
     Bearer:
