@@ -39,6 +39,14 @@ paths:
       tags:
         - publications
       description: Get Publication by ID
+      operationId: getPublicationById
+      parameters:
+        - name: publicationId
+          in: path
+          description: ID of publication that needs to be fetched
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
