@@ -4,7 +4,7 @@ info:
     Welcome to the Lawlift API! You can use our API to access Lawlift API endpoints to export data from your system into Lawlift.
 
     ### Authentication
-    
+
     Lawlift uses API keys to allow access to the API.
 
     Lawlift expects the API key to be included in all API requests to the server in the request header in the following form:
@@ -16,10 +16,10 @@ info:
     The API Auth key can be retrieved from the Lawlift app. Open a Template in editing mode, choose Options and enable the 'API Mapping'. The API key will be displayed unencrypted below.
 
     NOTE: The API auth key will be in the form: \<ApiClientId>@\<ApiSecretKey>
-    
+
   version: "1.1.0"
   title: "Lawlift API"
-  termsOfService: 'https://www.lawlift.com/privacy'
+  termsOfService: "https://www.lawlift.com/privacy"
   contact:
     email: support@lawlift.com
 servers:
@@ -29,13 +29,13 @@ servers:
   # Added by API Auto Mocking Plugin
   # - description: SwaggerHub API Auto Mocking
   #   url: https://virtserver.swaggerhub.com/sarasate/APIv1/1.0.0
-  - url: 'https://app.lawlift.de/api/v1'
+  - url: "https://app.lawlift.de/api/v1"
   # - url: 'http://localhost:3000/api/v1'
 tags:
   - name: documents
     description: Generate a document in the Lawlift app with imported data
   - name: templates
-    description: Endpoints for templates 
+    description: Endpoints for templates
   - name: publications
     description: Endpoints for publications
 paths:
@@ -45,16 +45,15 @@ paths:
         - publications
       description: Generate a document for a publication
       responses:
-        '200':
-          description:
-            Returns a link to a generated document based on a publication 
+        "200":
+          description: Returns a link to a generated document based on a publication
           content:
             application/json:
               schema:
                 type: string
-                example: 'https://app.lawlift.de/publications/document/YSHqK23Y7RGAtFHB6/yfoDmbuHp5TiQgEfb'
+                example: "https://app.lawlift.de/publications/document/YSHqK23Y7RGAtFHB6/yfoDmbuHp5TiQgEfb"
       requestBody:
-        $ref: '#/components/requestBodies/PublicationDocument'
+        $ref: "#/components/requestBodies/PublicationDocument"
   /publications/{publicationId}:
     get:
       tags:
@@ -69,12 +68,12 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Publication'
+                $ref: "#/components/schemas/Publication"
       security:
         - Bearer: []
   /publications:
@@ -83,7 +82,7 @@ paths:
         - publications
       description: Get Publications
       responses:
-        '200':
+        "200":
           description: OK
   /documents/generate:
     post:
@@ -92,20 +91,19 @@ paths:
       summary: Generate document link
       operationId: generateDocument
       responses:
-        '200':
-          description:
-            Returns a link to a generated document 
+        "200":
+          description: Returns a link to a generated document
           content:
             application/json:
               schema:
                 type: string
-                example: 'https://app.lawlift.de/Contract/YSHqK23Y7RGAtFHB6/yfoDmbuHp5TiQgEfb'
-        '405':
+                example: "https://app.lawlift.de/Contract/YSHqK23Y7RGAtFHB6/yfoDmbuHp5TiQgEfb"
+        "405":
           description: Invalid input
       security:
         - Bearer: []
       requestBody:
-        $ref: '#/components/requestBodies/Document'
+        $ref: "#/components/requestBodies/Document"
   /templates:
     get:
       tags:
@@ -114,7 +112,7 @@ paths:
       description: Returns a map of status codes to quantities
       operationId: getTemplates
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
@@ -126,7 +124,7 @@ paths:
       security:
         - Bearer: []
 
-  '/templates/{templateId}':
+  "/template/{templateId}":
     get:
       tags:
         - templates
@@ -142,15 +140,15 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Template'
-        '400':
+                $ref: "#/components/schemas/Template"
+        "400":
           description: Invalid ID supplied
-        '404':
+        "404":
           description: Template not found
 security:
   - Bearer: []
@@ -183,7 +181,7 @@ components:
           properties:
             original:
               type: string
-            translated: 
+            translated:
               type: string
         documentsGenerated:
           type: integer
@@ -196,7 +194,7 @@ components:
       type: object
       properties:
         id:
-          type: string  
+          type: string
         shortId:
           type: string
         templateId:
@@ -207,7 +205,7 @@ components:
           type: object
           properties:
             publishedAt:
-              type: string 
+              type: string
             published:
               type: boolean
         version:
@@ -243,7 +241,7 @@ components:
                 type: string
                 description: The Id of the template from which a document should be generated.
               data:
-                type: object 
+                type: object
                 description: "The data object with the mapped fields, can be serialized JSON or encrypted with tweet-nacl (Base64)."
                 example: '{ "fieldName1": true, fieldName2: false, fieldName3: "First name" }'
               authorEmail:
@@ -255,7 +253,7 @@ components:
               caseName:
                 type: string
                 description: The name of the case.
-              meta: 
+              meta:
                 type: object
                 description: "Custom meta data fields that will be exported into docx (settings.xml). Useful to insert data from your system and extract it from exported docx files."
               nonce:
@@ -274,7 +272,7 @@ components:
                 type: string
                 description: The shortId of the publication from which a document should be generated.
               data:
-                type: object 
+                type: object
                 description: "The data object with the mapped fields, can be serialized JSON or encrypted with tweet-nacl (Base64)."
                 example: '{ "fieldName1": true, fieldName2: false, fieldName3: "First name" }'
               authorEmail:
@@ -286,7 +284,7 @@ components:
               caseName:
                 type: string
                 description: The name of the case.
-              meta: 
+              meta:
                 type: object
                 description: "Custom meta data fields that will be exported into docx (settings.xml). Useful to insert data from your system and extract it from exported docx files."
               nonce:
