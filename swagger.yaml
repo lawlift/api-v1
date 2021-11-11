@@ -54,7 +54,7 @@ paths:
                 example: "https://app.lawlift.de/publications/document/YSHqK23Y7RGAtFHB6/yfoDmbuHp5TiQgEfb"
       requestBody:
         $ref: "#/components/requestBodies/PublicationDocument"
-  /publications/{publicationId}:
+  /publication/{publicationId}:
     get:
       tags:
         - publications
