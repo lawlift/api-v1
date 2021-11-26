@@ -9,7 +9,7 @@ info:
 
     Lawlift expects the API key to be included in all API requests to the server in the request header in the following form:
 
-    ```Authorization: Basic API_KEY```
+    ```Authorization: Bearer API_KEY```
 
     You must replace API_KEY with your personal API key.
 
@@ -293,6 +293,5 @@ components:
       required: true
   securitySchemes:
     Bearer:
-      type: apiKey
-      name: Authorization
-      in: header
+      type: http
+      scheme: bearer
