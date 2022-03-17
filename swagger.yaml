@@ -243,7 +243,7 @@ components:
               data:
                 type: object
                 description: "The data object with the mapped fields, can be serialized JSON or encrypted with tweet-nacl (Base64)."
-                example: '{ "fieldName1": true, fieldName2: false, fieldName3: "First name" }'
+                example: '{ "fieldName1": true, fieldName2: false, fieldName3: "First name", serialField1: ["namePerson1", "namePerson2", "namePerson2"], serialField2:["namePerson1", "namePerson2", "namePerson2"] }'
               authorEmail:
                 type: string
                 description: Email of the author of the document.
@@ -274,7 +274,7 @@ components:
               data:
                 type: object
                 description: "The data object with the mapped fields, can be serialized JSON or encrypted with tweet-nacl (Base64)."
-                example: '{ "fieldName1": true, fieldName2: false, fieldName3: "First name" }'
+                example: '{ "fieldName1": true, fieldName2: false, fieldName3: "First name", serialField1: ["namePerson1", "namePerson2", "namePerson2"], serialField2:["namePerson1", "namePerson2", "namePerson2"] }'
               authorEmail:
                 type: string
                 description: Email of the author of the document.
