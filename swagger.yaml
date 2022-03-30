@@ -256,9 +256,13 @@ components:
               meta:
                 type: object
                 description: "Custom meta data fields that will be exported into docx (settings.xml). Useful to insert data from your system and extract it from exported docx files."
+                example: { "metaField1": "value1", "metaField2": "value2" }
               nonce:
-                type: string
+                type: string 
                 description: Only required if data payload is encrypted.
+                example:  null
+
+
     PublicationDocument:
       content:
         application/json:
@@ -287,9 +291,11 @@ components:
               meta:
                 type: object
                 description: "Custom meta data fields that will be exported into docx (settings.xml). Useful to insert data from your system and extract it from exported docx files."
+                example: { "metaField1": "value1", "metaField2": "value2" }
               nonce:
                 type: string
                 description: Only required if data payload is encrypted.
+                example:  null
       required: true
   securitySchemes:
     Bearer:
