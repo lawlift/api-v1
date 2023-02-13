@@ -255,7 +255,7 @@ components:
                 description: The name of the case.
               autoExport:
                 type: boolean
-                description: Automatically exports fully rendered documents
+                description: Automatically exports fully rendered documents.
                 example: false
               meta:
                 type: object
@@ -292,6 +292,10 @@ components:
               caseName:
                 type: string
                 description: The name of the case.
+              autoExport:
+                type: boolean
+                description: Automatically exports fully rendered documents.
+                example: false
               meta:
                 type: object
                 description: "Custom meta data fields that will be exported into docx (settings.xml). Useful to insert data from your system and extract it from exported docx files."
