@@ -256,6 +256,7 @@ components:
               autoExport:
                 type: boolean
                 description: Automatically exports fully rendered documents
+                example: false
               meta:
                 type: object
                 description: "Custom meta data fields that will be exported into docx (settings.xml). Useful to insert data from your system and extract it from exported docx files."
