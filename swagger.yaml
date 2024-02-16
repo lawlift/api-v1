@@ -17,7 +17,7 @@ info:
 
     NOTE: The API auth key will be in the form: \<ApiClientId>@\<ApiSecretKey>
 
-  version: "1.1.0"
+  version: "1.2.0"
   title: "Lawlift API"
   termsOfService: "https://www.lawlift.com/privacy"
   contact:
@@ -54,6 +54,33 @@ paths:
                 example: "https://app.lawlift.de/publications/document/YSHqK23Y7RGAtFHB6/yfoDmbuHp5TiQgEfb"
       requestBody:
         $ref: "#/components/requestBodies/PublicationDocument"
+  /publications/documents/generate/secret-url:
+    post:
+      tags:
+        - publications
+      description: Generate a document for a publication, accessible only via a "secret" URL
+      responses:
+        "200":
+          description: Generates a document based on a publication and provides a "secret" URL for accessing it. The "secret" parameter in the URL is used for authorization, ensuring only users with the "secret" can access the document.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "https://app.lawlift.de/publications/document/YSHqK23Y7RGAtFHB6/yfoDmbuHp5TiQgEfb?secret=tf3BIEa5NVgM6UQhwGoDxwvdGiVmVS11pPxcXlHrSyv%252BwprPbfw32JKm6lTn96RUBO5JS6Z70vM%253D"
+        "405":
+          description: Unexpected request method
+        "401":
+          description: Authentication failed
+        "500":
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "No publication found for the given shortId"
+
+      requestBody:
+        $ref: "#/components/requestBodies/SecretURLPublicationDocument"
   /publication/{publicationId}:
     get:
       tags:
@@ -243,7 +270,14 @@ components:
               data:
                 type: object
                 description: "The data object with the mapped fields, can be serialized JSON or encrypted with tweet-nacl (Base64)."
-                example: { "fieldName1": true, fieldName2: false, fieldName3: "First name", serialField1: ["namePerson1", "namePerson2", "namePerson2"], serialField2: ["namePerson1", "namePerson2", "namePerson2"] }
+                example:
+                  {
+                    "fieldName1": true,
+                    fieldName2: false,
+                    fieldName3: "First name",
+                    serialField1: ["namePerson1", "namePerson2", "namePerson2"],
+                    serialField2: ["namePerson1", "namePerson2", "namePerson2"],
+                  }
               authorEmail:
                 type: string
                 description: Email of the author of the document.
@@ -262,10 +296,9 @@ components:
                 description: "Custom meta data fields that will be exported into docx (settings.xml). Useful to insert data from your system and extract it from exported docx files."
                 example: { "metaField1": "value1", "metaField2": "value2" }
               nonce:
-                type: string 
+                type: string
                 description: Only required if data payload is encrypted.
-                example:  null
-
+                example: null
 
     PublicationDocument:
       content:
@@ -282,7 +315,14 @@ components:
               data:
                 type: object
                 description: "The data object with the mapped fields, can be serialized JSON or encrypted with tweet-nacl (Base64)."
-                example: { "fieldName1": true, fieldName2: false, fieldName3: "First name", serialField1: ["namePerson1", "namePerson2", "namePerson2"], serialField2: ["namePerson1", "namePerson2", "namePerson2"] }
+                example:
+                  {
+                    "fieldName1": true,
+                    fieldName2: false,
+                    fieldName3: "First name",
+                    serialField1: ["namePerson1", "namePerson2", "namePerson2"],
+                    serialField2: ["namePerson1", "namePerson2", "namePerson2"],
+                  }
               authorEmail:
                 type: string
                 description: Email of the author of the document.
@@ -303,7 +343,38 @@ components:
               nonce:
                 type: string
                 description: Only required if data payload is encrypted.
-                example:  null
+                example: null
+      required: true
+    SecretURLPublicationDocument:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - shortId
+              - data
+            properties:
+              shortId:
+                type: string
+                description: The shortId of the publication from which a document should be generated.
+              data:
+                type: object
+                description: The data object with the mapped fields as keys, and the answer values for the values. Must be serialized JSON.
+                example:
+                  {
+                    "fieldName1": true,
+                    fieldName2: false,
+                    fieldName3: "First name",
+                    serialField1: ["namePerson1", "namePerson2", "namePerson2"],
+                    serialField2: ["namePerson1", "namePerson2", "namePerson2"],
+                  }
+              authorEmail:
+                type: string
+                description: Email of the author of the document.
+              autoExport:
+                type: boolean
+                description: Flag to automatically export the document upon rendering.
+                example: false
       required: true
   securitySchemes:
     Bearer:
