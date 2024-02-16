@@ -58,10 +58,10 @@ paths:
     post:
       tags:
         - publications
-      description: Generate a document for a publication, accessible only via a "secret" URL
+      description: Generate a document from a publication, accessible via a "secret" parameter in the URL. No additional authentication necessary.
       responses:
         "200":
-          description: Generates a document based on a publication and provides a "secret" URL for accessing it. The "secret" parameter in the URL is used for authorization, ensuring only users with the "secret" can access the document.
+          description: Generates a document based on a publication and provides a "secret" parameter in the URL for accessing it. The "secret" parameter in the URL is used for authorization, ensuring only users with the "secret" can access the document.
           content:
             application/json:
               schema:
